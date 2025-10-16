@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { Suspense } from 'react';
 import SearchFilters from './SearchFilters';
 
 /**
@@ -47,7 +48,9 @@ export default function Hero() {
 
         {/* Search Filters */}
         <div className="max-w-5xl mx-auto">
-          <SearchFilters />
+          <Suspense fallback={<div className="bg-card rounded-2xl p-6 shadow-lg border border-border">Chargement des filtres...</div>}>
+            <SearchFilters />
+          </Suspense>
         </div>
       </div>
     </div>
