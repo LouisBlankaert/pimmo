@@ -28,7 +28,7 @@ const properties: PropertyType[] = [
     price: 120,
     location: 'Bruxelles, 1000',
     surface: 15,
-    imageUrl: 'https://img.freepik.com/free-photo/garage-with-roller-door_1303-9864.jpg',
+    imageUrl: 'https://img.freepik.com/vecteurs-libre/vecteur-realiste-interieur-entrepot-vide-hangar_1441-3882.jpg',
     type: 'rent',
     propertyType: 'garage',
     features: ['Porte automatique', 'Alarme', 'Éclairage', 'Sol bétonné'],
@@ -42,7 +42,7 @@ const properties: PropertyType[] = [
     price: 150,
     location: 'Bruxelles, 1050',
     surface: 18,
-    imageUrl: 'https://img.freepik.com/free-photo/underground-parking-garage-with-cars_1340-34258.jpg',
+    imageUrl: 'https://img.freepik.com/vecteurs-libre/vecteur-realiste-interieur-entrepot-vide-hangar_1441-3882.jpg',
     type: 'rent',
     propertyType: 'garage',
     features: ['Accès sécurisé', 'Gardien', 'Caméras de surveillance', 'Éclairage'],
@@ -56,7 +56,7 @@ const properties: PropertyType[] = [
     price: 75,
     location: 'Bruxelles, 1030',
     surface: 12,
-    imageUrl: 'https://img.freepik.com/free-photo/empty-parking-lot_1127-3298.jpg',
+    imageUrl: 'https://img.freepik.com/vecteurs-libre/vecteur-realiste-interieur-entrepot-vide-hangar_1441-3882.jpg',
     type: 'rent',
     propertyType: 'parking',
     features: ['Accès par badge', 'Marquage au sol', 'Éclairage nocturne'],
@@ -70,7 +70,7 @@ const properties: PropertyType[] = [
     price: 90,
     location: 'Namur, 5000',
     surface: 13,
-    imageUrl: 'https://img.freepik.com/free-photo/parking-garage-underground-interior-with-cars_1340-34260.jpg',
+    imageUrl: 'https://img.freepik.com/vecteurs-libre/vecteur-realiste-interieur-entrepot-vide-hangar_1441-3882.jpg',
     type: 'rent',
     propertyType: 'parking',
     features: ['Couvert', 'Éclairage', 'Vidéosurveillance'],
@@ -92,32 +92,40 @@ interface GaragesParkingPageProps {
   searchParams: SearchParams;
 }
 
-export default function GaragesParkingPage({ searchParams }: GaragesParkingPageProps) {
+export default async function GaragesParkingPage({ searchParams }: GaragesParkingPageProps) {
+  // Convertir les searchParams en variables locales pour éviter les erreurs
+  const propertyType = searchParams.propertyType;
+  const minPrice = searchParams.minPrice;
+  const maxPrice = searchParams.maxPrice;
+  const minSurface = searchParams.minSurface;
+  const location = searchParams.location;
+  const duration = searchParams.duration;
+
   // Filter properties based on search params
   const filteredProperties = properties.filter((property: PropertyType) => {
     // Filter by specific type (garage/parking)
-    if (searchParams.propertyType && property.propertyType !== searchParams.propertyType) {
+    if (propertyType && property.propertyType !== propertyType) {
       return false;
     }
 
     // Filter by price range
-    if (searchParams.minPrice && property.price < parseInt(searchParams.minPrice)) {
+    if (minPrice && property.price < parseInt(minPrice)) {
       return false;
     }
 
-    if (searchParams.maxPrice && property.price > parseInt(searchParams.maxPrice)) {
+    if (maxPrice && property.price > parseInt(maxPrice)) {
       return false;
     }
 
     // Filter by surface
-    if (searchParams.minSurface && property.surface < parseInt(searchParams.minSurface)) {
+    if (minSurface && property.surface < parseInt(minSurface)) {
       return false;
     }
 
     // Filter by location (case insensitive partial match)
     if (
-      searchParams.location &&
-      !property.location.toLowerCase().includes(searchParams.location.toLowerCase())
+      location &&
+      !property.location.toLowerCase().includes(location.toLowerCase())
     ) {
       return false;
     }
@@ -126,9 +134,9 @@ export default function GaragesParkingPage({ searchParams }: GaragesParkingPageP
   });
 
   const title = 'Garages & Places de Parking';
-  const subtitle = searchParams.propertyType === 'garage' 
+  const subtitle = propertyType === 'garage' 
     ? 'Garages uniquement' 
-    : searchParams.propertyType === 'parking' 
+    : propertyType === 'parking' 
       ? 'Places de parking uniquement' 
       : 'Garages et places de parking';
 
@@ -155,12 +163,12 @@ export default function GaragesParkingPage({ searchParams }: GaragesParkingPageP
             <Suspense fallback={<div>Chargement des filtres...</div>}>
               <SearchFilters initialFilters={{
                 type: 'rent',
-                propertyType: searchParams.propertyType || 'all',
-                minPrice: searchParams.minPrice || '',
-                maxPrice: searchParams.maxPrice || '',
-                minSurface: searchParams.minSurface || '',
-                location: searchParams.location || '',
-                duration: searchParams.duration as 'short' | 'long' || 'long',
+                propertyType: propertyType || 'all',
+                minPrice: minPrice || '',
+                maxPrice: maxPrice || '',
+                minSurface: minSurface || '',
+                location: location || '',
+                duration: duration as 'short' | 'long' || 'long',
               }} />
             </Suspense>
           </div>
