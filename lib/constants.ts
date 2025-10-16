@@ -34,7 +34,4 @@ export const ROUTES = {
   PROPERTY_DETAIL: (id: string) => `/properties/${id}`,
   NEW_PROPERTY: '/properties/new',
   GARAGES_PARKING: '/properties/garages-parking',
-  ACCOUNT: '/account',
-  LOGIN: '/account/login',
-  REGISTER: '/account/register',
 };
