@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"],
+      "@components/*": ["./components/*"],
+      "@ui/*": ["./components/ui/*"],
+      "@lib/*": ["./lib/*"],
+      "@utils/*": ["./lib/utils/*"],
+      "@data/*": ["./lib/data/*"],
+      "@types/*": ["./lib/types/*"],
+      "@constants": ["./lib/constants.ts"],
+      "@public/*": ["./public/*"]
+    }
+  }
+}
